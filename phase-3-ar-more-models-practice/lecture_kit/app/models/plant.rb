@@ -1,0 +1,17 @@
+class Plant < ActiveRecord::Base
+    has_many :plant_parenthoods
+    has_many :people, through: :plant_parenthoods
+    belongs_to :category
+    has_many :plant_categories
+    has_many :categories, through: :plant_categories
+    has_many :waterings
+    has_many :waterers, through: :waterings
+
+    def number_of_days_since_last_watering
+        #binding.pry
+        today = DateTime.now
+        last_watering = self.waterings.last.created_at.to_datetime
+        number = (today - last_watering).to_i
+        puts "I was watered #{number} days ago"
+    end
+end
